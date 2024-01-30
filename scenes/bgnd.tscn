@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://kqvhan4maw6x"]
+
+[ext_resource type="Texture2D" uid="uid://cxh0irmnmjxbv" path="res://assets/bgnd.png" id="1_kkmys"]
+
+[node name="Bgnd" type="ParallaxBackground"]
+metadata/_edit_group_ = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(320, 288)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
+texture = ExtResource("1_kkmys")
+centered = false

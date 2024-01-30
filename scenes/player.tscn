@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bi1tc3yjbx1m5"]
+[gd_scene load_steps=20 format=3 uid="uid://bi1tc3yjbx1m5"]
 
 [ext_resource type="Texture2D" uid="uid://b0w5fb0fskpgj" path="res://assets/nave_default_move_2.png" id="1_fj00n"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_nohnn"]
@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://do3qwuj6ma7n2" path="res://assets/mini_boss_1_still_2.png" id="7_yrsb7"]
 [ext_resource type="Texture2D" uid="uid://dvvjo65fh71i2" path="res://assets/mini_boss_1_still_3.png" id="8_fcmqx"]
 [ext_resource type="Texture2D" uid="uid://d4awmub3c47rn" path="res://assets/mini_boss_1_still_4.png" id="9_2lfvc"]
+[ext_resource type="PackedScene" uid="uid://t0ph2sqttn4" path="res://scenes/health_component.tscn" id="15_c6nf2"]
+[ext_resource type="PackedScene" uid="uid://ceae4aadui8gs" path="res://scenes/hitbox_component.tscn" id="16_a37sj"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tqntk"]
 animations = [{
@@ -77,11 +79,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4yvp2"]
-size = Vector2(18, 17)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_im6cp"]
+size = Vector2(20, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_14wjl"]
+size = Vector2(20, 14)
 
 [node name="Player" type="Area2D"]
-position = Vector2(81, 67)
+position = Vector2(80, 72)
 script = ExtResource("1_nohnn")
 metadata/_edit_group_ = true
 
@@ -90,8 +95,19 @@ sprite_frames = SubResource("SpriteFrames_tqntk")
 animation = &"chopper_move"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_4yvp2")
-one_way_collision_margin = 0.0
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_im6cp")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+
+[node name="HealthComponent" parent="." instance=ExtResource("15_c6nf2")]
+
+[node name="HitboxComponent" parent="." instance=ExtResource("16_a37sj")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_14wjl")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

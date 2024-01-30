@@ -2,12 +2,20 @@ extends Area2D
 
 # @export hace q la variable aparezca como editable en el Inspector --->
 @export var speed = 60 # How fast the player will move (pixels/sec).
+@export var start_distance = 600
+var theta
+var rng = RandomNumberGenerator.new()
 var screen_size # Size of the game window.
 signal hit
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	theta = rng.randf_range(0, 2 * PI)
+	position.x = start_distance * cos(theta)
+	position.y = start_distance * sin(theta)
+	#position = $StartPosition.position
 	#hide()
+	pass
 	
 func _process(delta):
 	var velocity = Vector2.ZERO # The player's movement vector.
@@ -36,8 +44,7 @@ func _process(delta):
 	position += velocity * delta
 	# ↓ es como un clip pa q no se salga de la pantalla. 
 	# Aca podemos jugar pa q aparezca al otro lado
-	position = position.clamp(Vector2.ZERO, screen_size)
-
+	# position = position.clamp(Vector2.ZERO, screen_size)
 
 func _on_body_entered(body):
 	hide() # Player disappears after being hit.
@@ -47,7 +54,6 @@ func _on_body_entered(body):
 	$CollisionShape2D.set_deferred("disabled", true)
 
 
-func start(pos):
-	position = pos
+func start():
 	show()
-	$CollisionShape2D.disabled = false
+	$HitboxComponent/CollisionShape2D.disabled = false

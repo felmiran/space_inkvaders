@@ -1,12 +1,33 @@
-[gd_scene format=3 uid="uid://4ic0mntymc82"]
+[gd_scene load_steps=5 format=3 uid="uid://4ic0mntymc82"]
 
-[node name="Mob" type="RigidBody2D"]
+[ext_resource type="Script" path="res://scenes/mob.gd" id="1_q8vr8"]
+[ext_resource type="Texture2D" uid="uid://ba232uuu8uu7i" path="res://assets/nave_default_still.png" id="2_3wxcc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qcpp3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3wxcc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_igr62"]
+size = Vector2(10, 9)
+
+[node name="Mob" type="Area2D"]
 position = Vector2(1, 1)
-gravity_scale = -7.08
+script = ExtResource("1_q8vr8")
+speed = 100
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qcpp3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6.5)
+shape = SubResource("RectangleShape2D_igr62")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="CollisionShape2D"]

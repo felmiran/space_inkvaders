@@ -1,8 +1,8 @@
-extends Node2D
+extends ParallaxBackground
 
-var direction  = Vector2(0,1)
-@export var bgnd_speed = 100
-@export var bgnd_rot_speed = 0.3
+#var direction  = Vector2(0,1)
+#@export var bgnd_speed = 100
+#@export var bgnd_rot_speed = 0.3
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
