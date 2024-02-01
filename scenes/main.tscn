@@ -13,9 +13,10 @@ scroll_ignore_camera_zoom = true
 
 [node name="Player" parent="." instance=ExtResource("1_6rrh3")]
 speed = 100
+start_distance = 0
 
 [node name="MobSpawner" parent="." instance=ExtResource("5_n0wb4")]
-mean_freq = 0.01
+mean_freq = 0.1
 std_freq = 0.0
 
-[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="is_dead" from="Player" to="." method="_on_player_is_dead"]

@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://cfb71b6q20wah"]
+
+[ext_resource type="PackedScene" uid="uid://bi1tc3yjbx1m5" path="res://scenes/player.tscn" id="1_6rrh3"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_hxh5y"]
+[ext_resource type="PackedScene" uid="uid://kqvhan4maw6x" path="res://scenes/bgnd.tscn" id="2_0mmji"]
+[ext_resource type="PackedScene" uid="uid://4ic0mntymc82" path="res://scenes/mob.tscn" id="5_alpk8"]
+[ext_resource type="PackedScene" uid="uid://vpf8nf663fgg" path="res://scenes/mobSpawner.tscn" id="5_n0wb4"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_hxh5y")
+
+[node name="Bgnd" parent="." instance=ExtResource("2_0mmji")]
+scroll_ignore_camera_zoom = true
+
+[node name="Player" parent="." instance=ExtResource("1_6rrh3")]
+speed = 100
+start_distance = 0
+
+[node name="MobSpawner" parent="." instance=ExtResource("5_n0wb4")]
+std_freq = 0.0
+
+[node name="Mob" parent="." instance=ExtResource("5_alpk8")]
+start_position_x = 30
+start_position_y = 30
+
+[connection signal="is_dead" from="Player" to="." method="_on_player_is_dead"]

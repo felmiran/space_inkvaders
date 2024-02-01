@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://4ic0mntymc82"]
+[gd_scene load_steps=8 format=3 uid="uid://4ic0mntymc82"]
 
 [ext_resource type="Script" path="res://scenes/mob.gd" id="1_q8vr8"]
 [ext_resource type="Texture2D" uid="uid://ba232uuu8uu7i" path="res://assets/nave_default_still.png" id="2_3wxcc"]
+[ext_resource type="Script" path="res://scenes/HealthComponent.gd" id="3_mjvbj"]
+[ext_resource type="Script" path="res://scenes/HitboxComponent.gd" id="4_1b4jl"]
+[ext_resource type="Script" path="res://scenes/AttackComponent.gd" id="4_gf3ka"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qcpp3"]
 animations = [{
@@ -14,20 +17,30 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_igr62"]
-size = Vector2(10, 9)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oqftb"]
+size = Vector2(10, 10)
 
-[node name="Mob" type="Area2D"]
+[node name="Mob" type="Node2D"]
 position = Vector2(1, 1)
 script = ExtResource("1_q8vr8")
-speed = 100
-metadata/_edit_group_ = true
+speed = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_qcpp3")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 6.5)
-shape = SubResource("RectangleShape2D_igr62")
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("3_mjvbj")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="CollisionShape2D"]
+[node name="AttackComponent" type="Node2D" parent="."]
+script = ExtResource("4_gf3ka")
+
+[node name="HitboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component", "attack_component")]
+script = ExtResource("4_1b4jl")
+health_component = NodePath("../HealthComponent")
+attack_component = NodePath("../AttackComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_oqftb")
+
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]

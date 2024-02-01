@@ -1,4 +1,5 @@
-extends Area2D
+#extends Area2D
+extends Node2D
 
 # @export hace q la variable aparezca como editable en el Inspector --->
 @export var speed = 60 # How fast the player will move (pixels/sec).
@@ -6,7 +7,8 @@ extends Area2D
 var theta
 var rng = RandomNumberGenerator.new()
 var screen_size # Size of the game window.
-signal hit
+
+signal is_dead
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -15,7 +17,6 @@ func _ready():
 	position.y = start_distance * sin(theta)
 	#position = $StartPosition.position
 	#hide()
-	pass
 	
 func _process(delta):
 	var velocity = Vector2.ZERO # The player's movement vector.
@@ -46,14 +47,18 @@ func _process(delta):
 	# Aca podemos jugar pa q aparezca al otro lado
 	# position = position.clamp(Vector2.ZERO, screen_size)
 
-func _on_body_entered(body):
-	hide() # Player disappears after being hit.
-	hit.emit()
+func _on_hitbox_component_area_entered(body):
+	$HitboxComponent.handle_collision(body)
+	
+	if not $HealthComponent.has_health_remaining:
+		is_dead.emit()
+	
+	#hide() # Player disappears after being hit.
 	# Must be deferred as we can't change physics properties on a 
 	# physics callback.
-	$CollisionShape2D.set_deferred("disabled", true)
-
+	#$CollisionShape2D.set_deferred("disabled", true)
+	
 
 func start():
 	show()
-	$HitboxComponent/CollisionShape2D.disabled = false
+	#$HitboxComponent/CollisionShape2D.disabled = false

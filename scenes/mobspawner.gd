@@ -1,5 +1,6 @@
 extends Node
 
+# TODO generalizar para poder hacer mas instancias con diferentes mobs
 var mob = preload("res://scenes/mob.tscn")
 
 @export var mean_freq: float = 1  # mean mobs/s
@@ -13,8 +14,7 @@ var spawn_time = 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var spawn_time = rng.randfn(mean_freq, std_freq)
-	var mob = $Mob
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	# create random number to compare to elapsed time 
@@ -26,6 +26,11 @@ func _process(delta):
 	
 func spawn_mob():
 	var new_mob = mob.instantiate()
+	
 	new_mob.speed = mob_speed
 	add_child(new_mob)
-		 
+
+func _get_mob():
+	for child in get_children():
+		if child is Mob:
+			return child as Mob
